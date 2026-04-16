@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goldig Wohnen – Ihr Zuhause im Grünen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #A97227;
+      --gold-light: #C4943F;
+      --gold-glow: rgba(169, 114, 39, 0.15);
+      --gold-champagne: #D0B48F;
+      --bg: #FAF8F5;
+      --bg-cream: #F5F0E8;
+      --dark: #1A1714;
+      --text: #2D2D2D;
+      --text-sub: #6B6560;
+      --text-muted: #9A9490;
+      --white: #FDFCFA;
+      --border: rgba(169, 114, 39, 0.18);
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--sans); color: var(--text); background: var(--bg); overflow-x: hidden; }
+
+    /* ═══════════════════════════════════
+       URGENCY BAR
+       ═══════════════════════════════════ */
+    .urgency-bar {
+      background: var(--dark);
+      padding: 0.6rem 1rem;
+      text-align: center;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+    }
+    .urgency-inner {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    }
+    .urgency-dot {
+      width: 7px; height: 7px; background: #E8B84D; border-radius: 50%;
+      animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    .urgency-bar span { font-size: 0.78rem; font-weight: 500; color: var(--gold-champagne); }
+    .urgency-bar strong { color: #E8B84D; font-weight: 700; }
+
+    /* ═══════════════════════════════════
+       HERO — clean, centered, immersive
+       ═══════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--dark);
+      margin-top: 34px;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 1;
+      will-change: transform;
+    }
+    .hero-bg img, .hero-bg video {
+      width: 100%; height: 120%; object-fit: cover;
+      position: absolute; top: -10%;
+    }
+
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(ellipse at center, rgba(26,23,20,0.4) 0%, rgba(26,23,20,0.75) 100%);
+    }
+
+    /* Floating gold particles */
+    .hero-particles {
+      position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: var(--gold-champagne);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    .particle:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 25%; animation-duration: 12s; animation-delay: 2s; }
+    .particle:nth-child(3) { left: 45%; animation-duration: 10s; animation-delay: 4s; }
+    .particle:nth-child(4) { left: 65%; animation-duration: 9s; animation-delay: 1s; }
+    .particle:nth-child(5) { left: 80%; animation-duration: 11s; animation-delay: 3s; }
+    .particle:nth-child(6) { left: 90%; animation-duration: 7s; animation-delay: 5s; }
+
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 4;
+      text-align: center;
+      max-width: 700px;
+      padding: 0 2rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(169, 114, 39, 0.12);
+      border: 1px solid rgba(169, 114, 39, 0.25);
+      border-radius: 100px;
+      padding: 0.45rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold-champagne);
+      opacity: 0; animation: fadeIn 1s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 300; color: var(--white);
+      line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .hero-title .word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: wordReveal 0.8s forwards;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--gold-champagne);
+      display: block; margin-top: 0.15em;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      font-weight: 300; color: rgba(245,240,232,0.7);
+      line-height: 1.7; max-width: 500px; margin: 0 auto 2.5rem;
+      opacity: 0; animation: fadeIn 1s 1.2s forwards;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--gold); color: var(--dark);
+      font-size: 1rem; font-weight: 600;
+      padding: 1.1rem 2.75rem; border-radius: 3px;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      opacity: 0; animation: fadeIn 0.8s 1.5s forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 3s 2.5s infinite;
+    }
+    .hero-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(169, 114, 39, 0.4);
+    }
+    .hero-cta svg { width: 16px; height: 16px; transition: transform 0.3s; }
+    .hero-cta:hover svg { transform: translateX(4px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%); z-index: 4;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeIn 1s 2s forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(245,240,232,0.4); font-weight: 500;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: rgba(169,114,39,0.3); position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%; left: 0;
+      width: 1px; height: 100%; background: var(--gold-champagne);
+      animation: scrollDown 2s infinite;
+    }
+
+    /* ═══════════════════════════════════
+       USP SECTION — clean, animated icons
+       ═══════════════════════════════════ */
+    .usps {
+      padding: clamp(4rem, 8vw, 7rem) 0;
+      background: var(--white);
+    }
+    .usps-inner {
+      max-width: 1000px; margin: 0 auto; padding: 0 2rem;
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem;
+      text-align: center;
+    }
+    .usp {
+      opacity: 0; transform: translateY(30px);
+      transition: all 0.7s var(--ease);
+    }
+    .usp.vis { opacity: 1; transform: translateY(0); }
+    .usp:nth-child(2) { transition-delay: 0.1s; }
+    .usp:nth-child(3) { transition-delay: 0.2s; }
+    .usp:nth-child(4) { transition-delay: 0.3s; }
+    .usp:nth-child(5) { transition-delay: 0.4s; }
+
+    .usp-icon {
+      width: 52px; height: 52px; margin: 0 auto 1rem;
+      border-radius: 50%;
+      background: var(--gold-glow);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.4s ease;
+    }
+    .usp:hover .usp-icon {
+      background: var(--gold);
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(169,114,39,0.3);
+    }
+    .usp-icon svg { width: 22px; height: 22px; color: var(--gold); transition: color 0.3s; }
+    .usp:hover .usp-icon svg { color: var(--white); }
+
+    .usp-label {
+      font-family: var(--serif);
+      font-size: 1.3rem; font-weight: 500;
+      color: var(--text); margin-bottom: 0.3rem;
+    }
+    .usp-text {
+      font-size: 0.8rem; color: var(--text-sub); line-height: 1.5;
+    }
+
+    @media (max-width: 800px) {
+      .usps-inner { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .usps-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ═══════════════════════════════════
+       VIDEO PREVIEW
+       ═══════════════════════════════════ */
+    .video-section {
+      padding: clamp(3rem, 6vw, 5rem) 0;
+      background: var(--dark);
+      text-align: center;
+    }
+    .video-inner {
+      max-width: 360px; margin: 0 auto; padding: 0 1.5rem;
+    }
+    .video-eyebrow {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem;
+    }
+    .video-title {
+      font-family: var(--serif); font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 300; color: var(--white); margin-bottom: 2rem;
+    }
+    .video-wrap {
+      position: relative; border-radius: 8px; overflow: hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+      cursor: pointer; aspect-ratio: 9/16;
+      background: #000;
+    }
+    .video-wrap video {
+      width: 100%; height: 100%; object-fit: contain; display: block;
+    }
+    .video-play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(26,23,20,0.35);
+      transition: background 0.3s ease;
+    }
+    .video-wrap:hover .video-play-overlay { background: rgba(26,23,20,0.15); }
+    .video-play-overlay.hidden { display: none; }
+
+    .video-play-ring {
+      width: 68px; height: 68px; border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(169,114,39,0.12);
+      transition: all 0.35s ease;
+    }
+    .video-wrap:hover .video-play-ring {
+      background: var(--gold); transform: scale(1.08);
+    }
+    .video-play-ring svg {
+      width: 24px; height: 24px; color: var(--gold); margin-left: 3px;
+      transition: color 0.3s;
+    }
+    .video-wrap:hover .video-play-ring svg { color: var(--white); }
+
+    .video-fs-btn {
+      position: absolute; bottom: 12px; right: 12px;
+      width: 36px; height: 36px; border-radius: 6px;
+      background: rgba(0,0,0,0.5); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; opacity: 0; transition: opacity 0.3s;
+      z-index: 5;
+    }
+    .video-wrap:hover .video-fs-btn { opacity: 1; }
+    .video-fs-btn:hover { background: rgba(0,0,0,0.8); }
+    .video-fs-btn svg { width: 18px; height: 18px; color: var(--white); }
+
+    /* ═══════════════════════════════════
+       FORM SECTION — clean, centered
+       ═══════════════════════════════════ */
+    .form-section {
+      padding: clamp(4rem, 8vw, 7rem) 0;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-cream) 100%);
+      position: relative;
+    }
+
+    /* Decorative gold line */
+    .form-section::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--gold-champagne));
+    }
+
+    .form-wrapper {
+      max-width: 520px; margin: 0 auto; padding: 0 1.5rem;
+      opacity: 0; transform: translateY(40px);
+      transition: all 0.9s var(--ease);
+    }
+    .form-wrapper.vis { opacity: 1; transform: translateY(0); }
+
+    .form-header {
+      text-align: center; margin-bottom: 2rem;
+    }
+    .form-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 400; color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+    .form-header p {
+      font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;
+    }
+
+    /* Availability */
+    .avail {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 1rem; margin-bottom: 1.5rem;
+      background: var(--white); border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .avail-blocks { display: flex; gap: 4px; }
+    .avail-block { width: 22px; height: 9px; border-radius: 2px; transition: all 0.5s ease; }
+    .avail-block.taken { background: var(--gold); }
+    .avail-block.free { background: #E5E0D8; }
+    .avail-text { font-size: 0.78rem; color: var(--text-sub); font-weight: 500; }
+    .avail-text strong { color: var(--gold); font-weight: 700; }
+
+    /* Form Card */
+    .form-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: clamp(1.75rem, 4vw, 2.5rem);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.04);
+      position: relative;
+      transition: box-shadow 0.4s ease;
+    }
+    .form-card:hover {
+      box-shadow: 0 12px 50px rgba(0,0,0,0.07);
+    }
+    .form-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; border-radius: 8px 8px 0 0;
+      background: linear-gradient(90deg, var(--gold), var(--gold-champagne), var(--gold));
+    }
+
+    /* Toggle */
+    .form-toggle {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border); border-radius: 6px;
+      overflow: hidden; margin-bottom: 1.5rem;
+    }
+    .tog {
+      padding: 0.75rem 0.5rem; text-align: center;
+      font-size: 0.78rem; font-weight: 500; color: var(--text-sub);
+      background: var(--bg); cursor: pointer; border: none;
+      transition: all 0.3s ease; line-height: 1.3;
+      font-family: var(--sans);
+    }
+    .tog.active { background: var(--gold); color: var(--white); font-weight: 600; }
+    .tog:not(.active):hover { background: var(--bg-cream); }
+    .tog-badge {
+      display: block; font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; opacity: 0.75;
+    }
+
+    /* Fields */
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .f-group { margin-bottom: 0.75rem; }
+    .f-label {
+      display: block; font-size: 0.75rem; font-weight: 500;
+      color: var(--text); margin-bottom: 0.3rem;
+    }
+    .f-input {
+      width: 100%; padding: 0.8rem 1rem;
+      border: 1px solid rgba(0,0,0,0.08); border-radius: 5px;
+      font-family: var(--sans); font-size: 0.88rem; color: var(--text);
+      background: var(--bg); transition: all 0.3s ease; outline: none;
+    }
+    .f-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px var(--gold-glow);
+      background: var(--white);
+    }
+    .f-input::placeholder { color: var(--text-muted); }
+
+    /* Interest */
+    .int-row { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .int-btn {
+      flex: 1; padding: 0.65rem 0.5rem;
+      border: 1px solid var(--border); border-radius: 5px;
+      font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
+      color: var(--text-sub); background: var(--bg);
+      cursor: pointer; transition: all 0.3s ease; text-align: center;
+    }
+    .int-btn.active {
+      border-color: var(--gold); background: var(--gold-glow);
+      color: var(--gold); font-weight: 600;
+    }
+    .int-btn:hover:not(.active) { border-color: var(--gold-champagne); background: var(--bg-cream); }
+
+    .f-check {
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.25rem; cursor: pointer;
+      font-size: 0.82rem; color: var(--text-sub);
+      font-family: var(--sans); user-select: none;
+    }
+    .f-check input { display: none; }
+    .f-checkmark {
+      width: 20px; height: 20px; border-radius: 4px;
+      border: 1.5px solid var(--border); background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.25s ease;
+    }
+    .f-check input:checked + .f-checkmark {
+      background: var(--gold); border-color: var(--gold);
+    }
+    .f-check input:checked + .f-checkmark::after {
+      content: ''; width: 5px; height: 9px;
+      border: solid var(--white); border-width: 0 2px 2px 0;
+      transform: rotate(45deg); margin-top: -2px;
+    }
+    .f-check:hover .f-checkmark { border-color: var(--gold-champagne); }
+
+    .f-submit {
+      width: 100%; padding: 1rem; margin-top: 0.25rem;
+      background: var(--gold); color: var(--white);
+      font-family: var(--sans); font-size: 0.95rem; font-weight: 600;
+      border: none; border-radius: 5px; cursor: pointer;
+      transition: all 0.4s ease;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      position: relative; overflow: hidden;
+    }
+    .f-submit::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .f-submit:hover::before { transform: translateX(100%); }
+    .f-submit:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(169,114,39,0.35);
+    }
+    .f-submit svg { width: 15px; height: 15px; transition: transform 0.3s; }
+    .f-submit:hover svg { transform: translateX(3px); }
+
+    .f-trust {
+      text-align: center; margin-top: 1rem;
+      font-size: 0.72rem; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center; gap: 0.35rem;
+    }
+    .f-trust svg { width: 12px; height: 12px; }
+
+
+    @media (max-width: 500px) {
+      .f-row { grid-template-columns: 1fr; }
+      .int-row { flex-direction: column; }
+      .form-toggle { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════
+       DANKE OVERLAY
+       ═══════════════════════════════════ */
+    .danke {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(26,23,20,0.6);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .danke.vis { display: flex; }
+
+    .danke-card {
+      background: var(--white); border-radius: 10px;
+      padding: clamp(2rem, 4vw, 3rem);
+      max-width: 440px; width: 100%; text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+      animation: scaleIn 0.5s var(--ease) both;
+      position: relative; overflow: hidden;
+    }
+    .danke-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-champagne), var(--gold));
+    }
+
+    .danke-check {
+      width: 64px; height: 64px; margin: 0 auto 1.25rem;
+      border-radius: 50%; background: var(--gold-glow);
+      display: flex; align-items: center; justify-content: center;
+      animation: scaleIn 0.5s 0.2s var(--ease) both;
+    }
+    .danke-check svg { width: 28px; height: 28px; color: var(--gold); }
+    .danke-check svg polyline {
+      stroke-dasharray: 30; stroke-dashoffset: 30;
+      animation: draw 0.6s 0.5s ease forwards;
+    }
+
+    .danke-card h2 {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 400;
+      color: var(--text); margin-bottom: 0.6rem;
+    }
+    .danke-card p {
+      font-size: 0.88rem; color: var(--text-sub); line-height: 1.7; margin-bottom: 1.25rem;
+    }
+
+    .danke-steps {
+      text-align: left; padding: 1rem 1.25rem; background: var(--bg);
+      border-radius: 6px; margin-bottom: 1.25rem;
+    }
+    .danke-step {
+      display: flex; align-items: center; gap: 0.7rem;
+      margin-bottom: 0.6rem; font-size: 0.82rem; color: var(--text-sub);
+    }
+    .danke-step:last-child { margin-bottom: 0; }
+    .danke-step-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--gold); color: var(--white);
+      font-size: 0.65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .danke-close {
+      font-size: 0.78rem; color: var(--text-muted); cursor: pointer;
+      background: none; border: none; font-family: var(--sans);
+      text-decoration: underline; text-underline-offset: 3px;
+    }
+    .danke-close:hover { color: var(--text); }
+
+    /* ═══════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════ */
+    .footer {
+      background: var(--dark); padding: 2.5rem 0; text-align: center;
+    }
+    .footer-logo {
+      font-family: var(--sans); font-size: 0.6rem; font-weight: 600;
+      letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase;
+    }
+    .footer-sub {
+      font-size: 0.5rem; letter-spacing: 0.3em;
+      color: var(--gold-champagne); text-transform: uppercase; margin-top: 2px;
+    }
+    .footer-links {
+      margin-top: 0.75rem; display: flex; justify-content: center; gap: 1.5rem;
+    }
+    .footer-links a {
+      font-size: 0.7rem; color: rgba(245,240,232,0.35);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-champagne); }
+
+    /* ═══════════════════════════════════
+       KEYFRAMES
+       ═══════════════════════════════════ */
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes wordReveal { to { opacity: 1; transform: translateY(0); } }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(200%); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes scrollDown {
+      0% { top: -100%; } 50% { top: 100%; } 100% { top: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ URGENCY BAR ═══ -->
+  <div class="urgency-bar">
+    <div class="urgency-inner">
+      <span class="urgency-dot"></span>
+      <span>Nur noch <strong>7 von 10 Einheiten</strong> verfügbar</span>
+    </div>
+  </div>
+
+  <!-- ═══ HERO — clean, centered ═══ -->
+  <section class="hero">
+    <div class="hero-bg" id="heroBg">
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80">
+        <!-- <source src="projekt-video.mp4" type="video/mp4"> -->
+      </video>
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80" alt="" loading="eager">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-particles">
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">Goldingen &middot; St. Gallen</div>
+      <h1 class="hero-title" id="heroTitle">
+        <span class="word" style="animation-delay:0.4s">Ihr</span>
+        <span class="word" style="animation-delay:0.55s">neues</span>
+        <span class="word" style="animation-delay:0.7s">Zuhause</span>
+        <em>
+          <span class="word" style="animation-delay:0.9s">im</span>
+          <span class="word" style="animation-delay:1.05s">Grünen</span>
+        </em>
+      </h1>
+      <p class="hero-sub">Exklusive Eigentumswohnungen & Doppeleinfamilienhäuser in Goldingen &ndash; ruhig gelegen, urban verbunden.</p>
+      <a href="#optin" class="hero-cta">
+        Jetzt Projektinfos sichern
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Mehr erfahren</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══ USP STRIP ═══ -->
+  <section class="usps">
+    <div class="usps-inner">
+      <div class="usp">
+        <div class="usp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        </div>
+        <p class="usp-label">Solar</p>
+        <p class="usp-text">Eigene Photovoltaikanlage</p>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <p class="usp-label">Minergie</p>
+        <p class="usp-text">Zertifizierter Standard</p>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+        </div>
+        <p class="usp-label">Altersgerecht</p>
+        <p class="usp-text">Lift &amp; barrierefreier Zugang</p>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <p class="usp-label">Familien</p>
+        <p class="usp-text">Ideal für Familien</p>
+      </div>
+      <div class="usp">
+        <div class="usp-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/><path d="m2 21 6-6 4 4 5-5 5 7"/></svg>
+        </div>
+        <p class="usp-label">Bergblick</p>
+        <p class="usp-text">Unverbaubare Aussicht</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VIDEO PREVIEW ═══ -->
+  <section class="video-section">
+    <div class="video-inner">
+      <p class="video-eyebrow">Projekt-Video</p>
+      <h2 class="video-title">Erleben Sie Goldig Wohnen</h2>
+      <div class="video-wrap" id="videoWrap">
+        <video id="projVideo" playsinline preload="metadata" poster="">
+          <source src="projekt-video.mp4" type="video/mp4">
+        </video>
+        <div class="video-play-overlay" id="videoOverlay">
+          <div class="video-play-ring">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <button class="video-fs-btn" id="videoFs" title="Vollbild">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3"/><path d="M21 8V5a2 2 0 00-2-2h-3"/><path d="M3 16v3a2 2 0 002 2h3"/><path d="M16 21h3a2 2 0 002-2v-3"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FORM SECTION ═══ -->
+  <section class="form-section" id="optin">
+    <div class="form-wrapper">
+
+      <div class="form-header">
+        <h2>Sichern Sie sich Ihre Projektunterlagen</h2>
+        <p>Erhalten Sie Grundrisse, Preise und exklusive Besichtigungstermine &ndash; kostenlos und unverbindlich.</p>
+      </div>
+
+      <div class="avail">
+        <div class="avail-blocks" id="availBlocks">
+          <div class="avail-block taken"></div>
+          <div class="avail-block taken"></div>
+          <div class="avail-block taken"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+          <div class="avail-block free"></div>
+        </div>
+        <span class="avail-text"><strong>3 von 10</strong> reserviert</span>
+      </div>
+
+      <div class="form-card">
+        <div class="form-toggle">
+          <button type="button" class="tog active" data-tab="info">Projektunterlagen</button>
+          <button type="button" class="tog" data-tab="tour">Unterlagen + Besichtigung<span class="tog-badge">Empfohlen</span></button>
+        </div>
+
+        <form id="leadForm" novalidate>
+          <input type="hidden" name="type" id="formType" value="info">
+
+          <div class="f-row">
+            <div>
+              <label class="f-label" for="fn">Vorname *</label>
+              <input class="f-input" type="text" id="fn" name="vorname" placeholder="Max" required>
+            </div>
+            <div>
+              <label class="f-label" for="ln">Nachname *</label>
+              <input class="f-input" type="text" id="ln" name="nachname" placeholder="Muster" required>
+            </div>
+          </div>
+          <div class="f-group">
+            <label class="f-label" for="em">E-Mail *</label>
+            <input class="f-input" type="email" id="em" name="email" placeholder="max@beispiel.ch" required>
+          </div>
+          <div class="f-group">
+            <label class="f-label" for="tel">Telefon *</label>
+            <input class="f-input" type="tel" id="tel" name="telefon" placeholder="+41 79 123 45 67" required>
+          </div>
+
+          <div>
+            <label class="f-label">Interessiert an</label>
+            <div class="int-row">
+              <button type="button" class="int-btn active" data-val="Eigentumswohnung">Eigentumswohnung</button>
+              <button type="button" class="int-btn" data-val="DEFH">Doppeleinfamilienhaus</button>
+              <button type="button" class="int-btn" data-val="Beides">Beides</button>
+            </div>
+            <input type="hidden" name="interesse" id="intVal" value="Eigentumswohnung">
+          </div>
+
+          <label class="f-check">
+            <input type="checkbox" id="beratung" name="beratung">
+            <span class="f-checkmark"></span>
+            Ich wünsche einen persönlichen Beratungstermin
+          </label>
+
+          <button type="submit" class="f-submit" id="submitBtn">
+            Jetzt Unterlagen anfordern
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <p class="f-trust">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Ihre Daten sind sicher. Kein Spam.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <p class="footer-logo">G O L D I G</p>
+    <p class="footer-sub">W O H N E N</p>
+    <div class="footer-links">
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </div>
+  </footer>
+
+  <!-- ═══ DANKE OVERLAY ═══ -->
+  <div class="danke" id="danke">
+    <div class="danke-card">
+      <div class="danke-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 id="dankeTitle">Vielen Dank!</h2>
+      <p>Ihre Projektunterlagen sind auf dem Weg. Wir melden uns innerhalb von 24 Stunden.</p>
+      <div class="danke-steps">
+        <div class="danke-step"><span class="danke-step-num">1</span>Projektunterlagen per E-Mail (sofort)</div>
+        <div class="danke-step"><span class="danke-step-num">2</span>Vorschlag für Ihren Beratungstermin</div>
+        <div class="danke-step"><span class="danke-step-num">3</span>Individuelle Besichtigung vor Ort</div>
+      </div>
+      <button class="danke-close" id="dankeClose">Zurück zur Seite</button>
+    </div>
+  </div>
+
+  <!-- ═══ JS ═══ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ── Parallax hero background ──
+      var heroBg = document.getElementById('heroBg');
+      var ticking = false;
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var scroll = window.scrollY;
+            var heroH = window.innerHeight;
+            if (scroll < heroH) {
+              heroBg.style.transform = 'translateY(' + (scroll * 0.35) + 'px)';
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // ── Scroll-reveal USPs + Form ──
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('vis');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+
+      document.querySelectorAll('.usp, .form-wrapper').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      // ── Availability blocks entrance animation ──
+      var availObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            var blocks = e.target.querySelectorAll('.avail-block.taken');
+            blocks.forEach(function(b, i) {
+              setTimeout(function() {
+                b.style.transform = 'scaleY(1.5)';
+                setTimeout(function() { b.style.transform = 'scaleY(1)'; }, 250);
+              }, i * 180);
+            });
+            availObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      var availEl = document.getElementById('availBlocks');
+      if (availEl) availObs.observe(availEl.parentElement);
+
+      // ── Scarcity pulse ──
+      setInterval(function() {
+        var dot = document.querySelector('.urgency-dot');
+        if (dot) { dot.style.boxShadow = '0 0 12px #E8B84D'; setTimeout(function() { dot.style.boxShadow = 'none'; }, 400); }
+      }, 5000);
+
+      // ── Video play/fullscreen ──
+      var vid = document.getElementById('projVideo');
+      var vidOverlay = document.getElementById('videoOverlay');
+      var vidWrap = document.getElementById('videoWrap');
+      var vidFs = document.getElementById('videoFs');
+
+      vidWrap.addEventListener('click', function(e) {
+        if (e.target === vidFs || vidFs.contains(e.target)) return;
+        if (vid.paused) {
+          vid.play();
+          vidOverlay.classList.add('hidden');
+        } else {
+          vid.pause();
+          vidOverlay.classList.remove('hidden');
+        }
+      });
+
+      vid.addEventListener('ended', function() {
+        vidOverlay.classList.remove('hidden');
+      });
+
+      vidFs.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (vidWrap.requestFullscreen) vidWrap.requestFullscreen();
+        else if (vidWrap.webkitRequestFullscreen) vidWrap.webkitRequestFullscreen();
+        else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+      });
+
+      // ── Toggle buttons ──
+      var toggleBtns = document.querySelectorAll('.tog');
+      var formType = document.getElementById('formType');
+      var submitBtn = document.getElementById('submitBtn');
+
+      toggleBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          toggleBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          formType.value = btn.getAttribute('data-tab');
+          submitBtn.firstChild.textContent = btn.getAttribute('data-tab') === 'tour'
+            ? 'Unterlagen & Termin anfordern '
+            : 'Jetzt Unterlagen anfordern ';
+        });
+      });
+
+      // ── Interest buttons ──
+      var intBtns = document.querySelectorAll('.int-btn');
+      var intVal = document.getElementById('intVal');
+      intBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          intBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          intVal.value = btn.getAttribute('data-val');
+        });
+      });
+
+      // ── Form submit ──
+      var form = document.getElementById('leadForm');
+      var danke = document.getElementById('danke');
+      var dankeTitle = document.getElementById('dankeTitle');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fields = ['fn','ln','em','tel'];
+        var valid = true;
+        fields.forEach(function(id) {
+          var inp = document.getElementById(id);
+          if (!inp.value.trim()) {
+            inp.style.borderColor = '#c0392b';
+            valid = false;
+            setTimeout(function() { inp.style.borderColor = ''; }, 2500);
+          }
+        });
+        if (!valid) return;
+
+        var em = document.getElementById('em').value;
+        if (em.indexOf('@') < 1 || em.indexOf('.') < 3) {
+          document.getElementById('em').style.borderColor = '#c0392b';
+          return;
+        }
+
+        var data = {
+          vorname: document.getElementById('fn').value.trim(),
+          nachname: document.getElementById('ln').value.trim(),
+          email: em.trim(),
+          telefon: document.getElementById('tel').value.trim(),
+          interesse: intVal.value,
+          beratungstermin: document.getElementById('beratung').checked,
+          type: formType.value,
+          timestamp: new Date().toISOString()
+        };
+        console.log('=== LEAD ===', data);
+
+        dankeTitle.textContent = 'Vielen Dank, ' + data.vorname + '!';
+        danke.classList.add('vis');
+        document.body.style.overflow = 'hidden';
+      });
+
+      // ── Close danke ──
+      document.getElementById('dankeClose').addEventListener('click', function() {
+        danke.classList.remove('vis');
+        document.body.style.overflow = '';
+      });
+      danke.addEventListener('click', function(e) {
+        if (e.target === danke) { danke.classList.remove('vis'); document.body.style.overflow = ''; }
+      });
+
+    })();
+  </script>
+</body>
+</html>
