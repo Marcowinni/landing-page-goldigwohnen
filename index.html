@@ -61,10 +61,11 @@
       opacity: 0;
       transform: translateY(15px);
       transition: opacity 0.8s ease, transform 0.8s ease;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
       padding: 2rem 2.5rem;
       border-radius: 12px;
+      transition: opacity 1s ease, transform 0.8s ease;
     }
     .intro-text.vis {
       opacity: 1; transform: translateY(0);
@@ -897,10 +898,10 @@
       var introVideo = document.getElementById('introVideo');
       var introText = document.getElementById('introText');
 
-      // Show text after 1.5s
+      // Show text after 3.5s so the view is visible first
       setTimeout(function() {
         introText.classList.add('vis');
-      }, 1500);
+      }, 3500);
 
       // Fade out after video ends
       introVideo.addEventListener('ended', function() {
