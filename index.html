@@ -61,26 +61,26 @@
       opacity: 0;
       transform: translateY(15px);
       transition: opacity 0.8s ease, transform 0.8s ease;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
     }
     .intro-text.vis {
       opacity: 1; transform: translateY(0);
     }
 
-    .intro-logo {
-      font-family: var(--sans); font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase;
-    }
-    .intro-logo-sub {
-      font-family: var(--sans); font-size: 0.5rem; font-weight: 400;
-      letter-spacing: 0.3em; color: var(--gold-champagne); text-transform: uppercase;
-      margin-top: 2px; margin-bottom: 1.25rem;
+    .intro-logo-img {
+      width: clamp(100px, 20vw, 160px);
+      height: auto;
+      margin-bottom: 1.25rem;
     }
     .intro-headline {
       font-family: var(--serif);
       font-size: clamp(1.8rem, 4vw, 2.8rem);
       font-weight: 300; color: var(--white);
       line-height: 1.2;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 30px rgba(0,0,0,0.7), 0 1px 6px rgba(0,0,0,0.5);
     }
     .intro-headline em {
       font-style: italic; color: var(--gold-champagne);
@@ -665,8 +665,7 @@
       <source src="vorhang-video.mp4" type="video/mp4">
     </video>
     <div class="intro-text" id="introText">
-      <p class="intro-logo">G O L D I G</p>
-      <p class="intro-logo-sub">W O H N E N</p>
+      <img src="logo.png" alt="Goldig Wohnen" class="intro-logo-img">
       <h2 class="intro-headline">Willkommen bei<br><em>Goldig Wohnen</em></h2>
     </div>
   </div>
