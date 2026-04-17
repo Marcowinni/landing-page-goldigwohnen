@@ -1,0 +1,35 @@
+name: Update Availability
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Täglich 07:00 UTC (08:00 Schweizer Zeit)
+  workflow_dispatch:       # Auch manuell auslösbar
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dependencies installieren
+        run: pip install requests beautifulsoup4
+
+      - name: Verfügbarkeit aktualisieren
+        run: python scripts/update_availability.py
+
+      - name: Änderungen committen und pushen
+        run: |
+          git config user.name "availability-bot"
+          git config user.email "bot@goldigwohnen.ch"
+          git diff --quiet index.html || (
+            git add index.html &&
+            git commit -m "Auto-update: Verfügbarkeit aktualisiert [skip ci]" &&
+            git push
+          )
