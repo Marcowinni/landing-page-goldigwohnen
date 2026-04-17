@@ -409,6 +409,18 @@
     .info-card-sub {
       font-size: 0.78rem; color: var(--text-sub); margin-top: 0.2rem;
     }
+    .drive-times {
+      display: flex; flex-wrap: wrap; gap: 0.3rem 0.75rem;
+      margin-top: 0.6rem;
+    }
+    .drive-times span {
+      font-size: 0.72rem; color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .drive-times em {
+      font-style: normal; color: var(--gold); font-weight: 600;
+      margin-left: 0.2rem;
+    }
 
     /* ═══════════════════════════════════
        FORM SECTION — clean, centered
@@ -727,7 +739,7 @@
   <div class="urgency-bar">
     <div class="urgency-inner">
       <span class="urgency-dot"></span>
-      <span><strong>14 Einheiten</strong> bereits reserviert oder verkauft – jetzt Unterlagen sichern</span>
+      <span><strong>14 Einheiten</strong> bereits reserviert oder verkauft</span>
     </div>
   </div>
 
@@ -859,6 +871,12 @@
           <p class="info-card-label">Standort</p>
           <p class="info-card-main">Steigenstrasse 5a–5l</p>
           <p class="info-card-sub">8738 Goldingen, St. Gallen</p>
+          <div class="drive-times">
+            <span>Rapperswil <em>20 min</em></span>
+            <span>Zürich <em>45 min</em></span>
+            <span>St. Gallen <em>60 min</em></span>
+            <span>Chur <em>60 min</em></span>
+          </div>
         </div>
       </div>
     </div>

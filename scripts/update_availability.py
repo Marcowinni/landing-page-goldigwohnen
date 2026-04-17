@@ -24,9 +24,9 @@ def update_html(vergeben):
     with open("index.html", "r", encoding="utf-8") as f:
         content = f.read()
 
-    new_span = f'<strong>{vergeben} Einheiten</strong> bereits reserviert oder verkauft \u2013 jetzt Unterlagen sichern'
+    new_span = f'<strong>{vergeben} Einheiten</strong> bereits reserviert oder verkauft'
     updated = re.sub(
-        r'<strong>\d+ Einheiten<\/strong> bereits reserviert oder verkauft \u2013 jetzt Unterlagen sichern',
+        r'<strong>\d+ Einheiten</strong> bereits reserviert oder verkauft',
         new_span,
         content
     )
