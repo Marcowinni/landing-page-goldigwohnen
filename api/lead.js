@@ -96,7 +96,7 @@ export default async function handler(req, res) {
     const customerMail = await resend.emails.send({
       from: FROM,
       to: data.email,
-      reply_to: NOTIFY_TO,
+      replyTo: NOTIFY_TO,
       subject: 'Ihre Projektunterlagen – Goldig Wohnen',
       html: customerHtml(data),
       attachments,
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: FROM,
       to: NOTIFY_TO,
-      reply_to: data.email,
+      replyTo: data.email,
       subject: `Neuer Lead: ${data.vorname} ${data.nachname} (${data.interesse})`,
       html: notifyHtml(data),
     });
