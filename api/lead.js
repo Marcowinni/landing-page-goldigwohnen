@@ -32,7 +32,7 @@ function buildAttachments(interesse) {
 function customerHtml({ vorname, interesse, beratungstermin }) {
   const greet = vorname ? `Liebe${vorname.toLowerCase().endsWith('a') || vorname.toLowerCase().endsWith('e') ? '' : 'r'} ${vorname}` : 'Guten Tag';
   const beratungLine = beratungstermin
-    ? '<p>Sie wünschen einen persönlichen Beratungstermin &ndash; wir melden uns innerhalb von 24 Stunden für die Terminvereinbarung.</p>'
+    ? '<p>Sie wünschen einen persönlichen Beratungstermin &ndash; wir melden uns in Kürze für die Terminvereinbarung.</p>'
     : '';
   return `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color:#2D2D2D; max-width:600px; margin:0 auto; padding:24px;">
