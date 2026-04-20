@@ -11,8 +11,8 @@ def fetch_counts():
 
     verkauft = 0
     reserviert = 0
-    for td in soup.find_all("td"):
-        text = td.get_text(strip=True).lower()
+    for p in soup.find_all("p"):
+        text = p.get_text(strip=True).lower()
         if text == "verkauft":
             verkauft += 1
         elif text == "reserviert":
