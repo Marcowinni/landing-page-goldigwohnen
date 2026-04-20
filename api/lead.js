@@ -83,7 +83,7 @@ function customerHtmlTour({ vorname }) {
         <p style="font-size:14px; color:#6B6560; margin:0;">Goldingen, St. Gallen</p>
       </div>
 
-      <p>Sie können jederzeit innerhalb des Zeitfensters vorbeikommen &ndash; wir nehmen uns gerne Zeit, Sie persönlich durch das Projekt zu führen und alle Ihre Fragen zu beantworten.</p>
+      <p>Sie können jederzeit innerhalb des Zeitfensters vorbeikommen &ndash; wir freuen uns auf Ihren Besuch.</p>
       <p>Vorab finden Sie im Anhang die Projektunterlagen mit Grundrissen, Preisen und allen Details zu den verfügbaren Einheiten.</p>
       ${LAYOUT_FOOT}
     </div>
