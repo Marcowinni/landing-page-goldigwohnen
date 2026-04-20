@@ -29,30 +29,75 @@ function buildAttachments(interesse) {
   return list;
 }
 
-function customerHtml({ vorname, interesse, beratungstermin }) {
-  const greet = vorname ? `Liebe${vorname.toLowerCase().endsWith('a') || vorname.toLowerCase().endsWith('e') ? '' : 'r'} ${vorname}` : 'Guten Tag';
+const LAYOUT_HEAD = `
+  <div style="text-align:center; padding:16px 0 24px;">
+    <p style="font-size:11px; letter-spacing:0.35em; color:#A97227; font-weight:700; margin:0;">G O L D I G</p>
+    <p style="font-size:9px; letter-spacing:0.3em; color:#D0B48F; margin:2px 0 0;">W O H N E N</p>
+  </div>
+`;
+
+const LAYOUT_FOOT = `
+  <p>Bei Fragen wenden Sie sich an <a href="tel:+41552858450" style="color:#A97227; text-decoration:none; font-weight:600;">+41 55 285 84 50</a>.</p>
+  <p style="margin-top:24px;">Herzliche Grüsse<br><strong>Ihr Goldig Wohnen Team</strong></p>
+  <hr style="border:none; border-top:1px solid #EEE; margin:32px 0 16px;">
+  <p style="font-size:11px; color:#9A9490; text-align:center; margin:0;">
+    Goldig Wohnen &middot; Goldingen, St. Gallen<br>
+    Diese E-Mail wurde automatisch versendet, weil Sie Projektunterlagen angefordert haben.
+  </p>
+`;
+
+function greeting(vorname) {
+  if (!vorname) return 'Guten Tag';
+  const v = vorname.toLowerCase();
+  const female = v.endsWith('a') || v.endsWith('e');
+  return `Liebe${female ? '' : 'r'} ${vorname}`;
+}
+
+function customerHtmlInfo({ vorname, beratungstermin }) {
   const beratungLine = beratungstermin
     ? '<p>Sie wünschen einen persönlichen Beratungstermin &ndash; wir melden uns in Kürze für die Terminvereinbarung.</p>'
     : '';
   return `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color:#2D2D2D; max-width:600px; margin:0 auto; padding:24px;">
-      <div style="text-align:center; padding:16px 0 24px;">
-        <p style="font-size:11px; letter-spacing:0.35em; color:#A97227; font-weight:700; margin:0;">G O L D I G</p>
-        <p style="font-size:9px; letter-spacing:0.3em; color:#D0B48F; margin:2px 0 0;">W O H N E N</p>
-      </div>
-      <h2 style="font-family:Georgia,serif; font-weight:400; color:#1A1714; font-size:22px; margin:0 0 16px;">${greet},</h2>
+      ${LAYOUT_HEAD}
+      <h2 style="font-family:Georgia,serif; font-weight:400; color:#1A1714; font-size:22px; margin:0 0 16px;">${greeting(vorname)},</h2>
       <p>vielen Dank für Ihr Interesse an <strong>Goldig Wohnen</strong> in Goldingen.</p>
       <p>Im Anhang finden Sie die angefragten Projektunterlagen mit Grundrissen, Preisen und allen Details zu den verfügbaren Einheiten.</p>
       ${beratungLine}
-      <p>Bei Fragen wenden Sie sich an <a href="tel:+41552858450" style="color:#A97227; text-decoration:none; font-weight:600;">+41 55 285 84 50</a>.</p>
-      <p style="margin-top:24px;">Herzliche Grüsse<br><strong>Ihr Goldig Wohnen Team</strong></p>
-      <hr style="border:none; border-top:1px solid #EEE; margin:32px 0 16px;">
-      <p style="font-size:11px; color:#9A9490; text-align:center; margin:0;">
-        Goldig Wohnen &middot; Goldingen, St. Gallen<br>
-        Diese E-Mail wurde automatisch versendet, weil Sie Projektunterlagen angefordert haben.
-      </p>
+      ${LAYOUT_FOOT}
     </div>
   `;
+}
+
+function customerHtmlTour({ vorname }) {
+  return `
+    <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color:#2D2D2D; max-width:600px; margin:0 auto; padding:24px;">
+      ${LAYOUT_HEAD}
+      <h2 style="font-family:Georgia,serif; font-weight:400; color:#1A1714; font-size:22px; margin:0 0 16px;">${greeting(vorname)},</h2>
+      <p>vielen Dank für Ihr Interesse an <strong>Goldig Wohnen</strong> in Goldingen &ndash; wir freuen uns, Ihnen das Projekt persönlich vorzustellen.</p>
+
+      <div style="background:#FAF8F5; border:1px solid rgba(169,114,39,0.25); border-radius:8px; padding:20px 24px; margin:24px 0;">
+        <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#A97227; font-weight:700; margin:0 0 8px;">Ihre Einladung zur Besichtigung</p>
+        <p style="font-family:Georgia,serif; font-size:20px; color:#1A1714; margin:0 0 6px;">Samstag, 9. Mai 2026</p>
+        <p style="font-size:15px; color:#2D2D2D; margin:0 0 12px;">10:00 &ndash; 15:00 Uhr</p>
+        <p style="font-size:14px; color:#6B6560; margin:0;">Goldingen, St. Gallen</p>
+      </div>
+
+      <p>Sie können jederzeit innerhalb des Zeitfensters vorbeikommen &ndash; wir nehmen uns gerne Zeit, Sie persönlich durch das Projekt zu führen und alle Ihre Fragen zu beantworten.</p>
+      <p>Vorab finden Sie im Anhang die Projektunterlagen mit Grundrissen, Preisen und allen Details zu den verfügbaren Einheiten.</p>
+      ${LAYOUT_FOOT}
+    </div>
+  `;
+}
+
+function customerHtml(data) {
+  return data.type === 'tour' ? customerHtmlTour(data) : customerHtmlInfo(data);
+}
+
+function customerSubject(data) {
+  return data.type === 'tour'
+    ? 'Ihre Einladung zur Besichtigung – Goldig Wohnen'
+    : 'Ihre Projektunterlagen – Goldig Wohnen';
 }
 
 function notifyHtml(d) {
@@ -97,7 +142,7 @@ export default async function handler(req, res) {
       from: FROM,
       to: data.email,
       replyTo: NOTIFY_TO,
-      subject: 'Ihre Projektunterlagen – Goldig Wohnen',
+      subject: customerSubject(data),
       html: customerHtml(data),
       attachments,
     });
