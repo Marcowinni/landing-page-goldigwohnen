@@ -44,7 +44,7 @@ function customerHtml({ vorname, interesse, beratungstermin }) {
       <p>vielen Dank für Ihr Interesse an <strong>Goldig Wohnen</strong> in Goldingen.</p>
       <p>Im Anhang finden Sie die angefragten Projektunterlagen mit Grundrissen, Preisen und allen Details zu den verfügbaren Einheiten.</p>
       ${beratungLine}
-      <p>Bei Fragen erreichen Sie uns jederzeit &ndash; wir freuen uns darauf, Sie kennenzulernen.</p>
+      <p>Bei Fragen wenden Sie sich an <a href="tel:+41552858450" style="color:#A97227; text-decoration:none; font-weight:600;">+41 55 285 84 50</a>.</p>
       <p style="margin-top:24px;">Herzliche Grüsse<br><strong>Ihr Goldig Wohnen Team</strong></p>
       <hr style="border:none; border-top:1px solid #EEE; margin:32px 0 16px;">
       <p style="font-size:11px; color:#9A9490; text-align:center; margin:0;">
