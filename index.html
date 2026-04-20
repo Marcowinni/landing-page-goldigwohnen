@@ -991,10 +991,10 @@
       </div>
       <h2 id="dankeTitle">Vielen Dank!</h2>
       <p>Ihre Projektunterlagen sind auf dem Weg.</p>
-      <div class="danke-steps">
+      <div class="danke-steps" id="dankeSteps">
         <div class="danke-step"><span class="danke-step-num">1</span>Projektunterlagen per E-Mail (sofort)</div>
-        <div class="danke-step"><span class="danke-step-num">2</span>Vorschlag für Ihren Beratungstermin</div>
-        <div class="danke-step"><span class="danke-step-num">3</span>Individuelle Besichtigung vor Ort</div>
+        <div class="danke-step" data-step="beratung" hidden><span class="danke-step-num">2</span>Vorschlag für Ihren Beratungstermin</div>
+        <div class="danke-step" data-step="tour" hidden><span class="danke-step-num">2</span>Besichtigung am Samstag, 9. Mai 2026 (10–15 Uhr)</div>
       </div>
       <button class="danke-close" id="dankeClose">Zurück zur Seite</button>
     </div>
@@ -1213,6 +1213,16 @@
               content_category: data.type
             });
           }
+          // Show relevant follow-up steps
+          var tourStep = document.querySelector('[data-step="tour"]');
+          var beratungStep = document.querySelector('[data-step="beratung"]');
+          tourStep.hidden = data.type !== 'tour';
+          beratungStep.hidden = data.type === 'tour' || !data.beratungstermin;
+          // Renumber visible steps
+          var visible = document.querySelectorAll('#dankeSteps .danke-step:not([hidden])');
+          visible.forEach(function(el, i) {
+            el.querySelector('.danke-step-num').textContent = i + 1;
+          });
           dankeTitle.textContent = 'Vielen Dank, ' + data.vorname + '!';
           danke.classList.add('vis');
           document.body.style.overflow = 'hidden';
