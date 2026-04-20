@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/lead.js": {
+      "includeFiles": "docs/**"
+    }
+  }
+}

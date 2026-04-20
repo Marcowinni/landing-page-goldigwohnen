@@ -1,2 +1,7 @@
 preview-video.mp4
 .claude/
+node_modules/
+.vercel
+.env
+.env.local
+vorhang-video-original.mp4
