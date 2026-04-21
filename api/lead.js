@@ -5,7 +5,12 @@ import path from 'node:path';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = process.env.RESEND_FROM || 'Goldig Wohnen <unterlagen@goldigwohnen.tw-services.ch>';
-const NOTIFY_TO = process.env.LEAD_NOTIFY_EMAIL || 'marco@tw-services.ch';
+// Supports comma-separated list of recipients
+const NOTIFY_TO = (process.env.LEAD_NOTIFY_EMAIL || 'info@tw-services.ch,info@psschubiger.ch')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const NOTIFY_REPLY = NOTIFY_TO[0];
 
 // Basic input guards
 const MAX_LEN = 200;
@@ -141,7 +146,7 @@ export default async function handler(req, res) {
     const customerMail = await resend.emails.send({
       from: FROM,
       to: data.email,
-      replyTo: NOTIFY_TO,
+      replyTo: NOTIFY_REPLY,
       subject: customerSubject(data),
       html: customerHtml(data),
       attachments,
