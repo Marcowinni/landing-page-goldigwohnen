@@ -538,7 +538,15 @@
       font-family: var(--sans); font-size: 0.8rem; font-weight: 500;
       color: var(--text-sub); background: var(--bg);
       cursor: pointer; transition: all 0.3s ease; text-align: center;
+      line-height: 1.3;
     }
+    .int-btn-price {
+      display: block; font-size: 0.65rem; font-weight: 400;
+      color: var(--text-muted); margin-top: 0.2rem;
+      transition: color 0.3s;
+    }
+    .int-btn.active .int-btn-price { color: var(--gold); }
+    .int-btn:hover:not(.active) .int-btn-price { color: var(--text-sub); }
     .int-btn.active {
       border-color: var(--gold); background: var(--gold-glow);
       color: var(--gold); font-weight: 600;
@@ -912,7 +920,7 @@
 <div class="form-card">
         <div class="form-toggle">
           <button type="button" class="tog active" data-tab="info">Projektunterlagen</button>
-          <button type="button" class="tog" data-tab="tour">Unterlagen + Besichtigung<span class="tog-badge">Empfohlen</span></button>
+          <button type="button" class="tog" data-tab="tour">Unterlagen + Besichtigungstermin<span class="tog-badge">Empfohlen</span></button>
         </div>
 
         <form id="leadForm" novalidate>
@@ -940,8 +948,8 @@
           <div>
             <label class="f-label">Interessiert an</label>
             <div class="int-row">
-              <button type="button" class="int-btn active" data-val="Eigentumswohnung">Eigentumswohnung</button>
-              <button type="button" class="int-btn" data-val="DEFH">Doppeleinfamilienhaus</button>
+              <button type="button" class="int-btn active" data-val="Eigentumswohnung">Eigentumswohnung<span class="int-btn-price">ab CHF 590'000</span></button>
+              <button type="button" class="int-btn" data-val="Einfamilienhaus">Einfamilienhaus<span class="int-btn-price">ab CHF 1'450'000</span></button>
               <button type="button" class="int-btn" data-val="Beides">Beides</button>
             </div>
             <input type="hidden" name="interesse" id="intVal" value="Eigentumswohnung">
