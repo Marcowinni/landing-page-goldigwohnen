@@ -1216,6 +1216,9 @@
           timestamp: new Date().toISOString()
         };
 
+        // Meta Pixel: Lead-Event beim Absenden
+        if (typeof fbq === 'function') { fbq('track', 'Lead'); }
+
         var originalLabel = submitBtn.firstChild.textContent;
         submitBtn.disabled = true;
         submitBtn.firstChild.textContent = 'Wird gesendet... ';
@@ -1232,12 +1235,6 @@
           if (!res.ok) {
             alert('Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es in einem Moment erneut oder kontaktieren Sie uns direkt.');
             return;
-          }
-          if (typeof fbq === 'function') {
-            fbq('track', 'Lead', {
-              content_name: data.interesse,
-              content_category: data.type
-            });
           }
           // Show relevant steps based on form selection
           var unterlagenStep = document.querySelector('[data-step="unterlagen"]');
