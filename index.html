@@ -663,15 +663,31 @@
       border-radius: 6px; margin-bottom: 1.25rem;
     }
     .danke-step {
-      display: flex; align-items: center; gap: 0.7rem;
+      display: flex; align-items: flex-start; gap: 0.6rem;
       margin-bottom: 0.6rem; font-size: 0.82rem; color: var(--text-sub);
     }
     .danke-step:last-child { margin-bottom: 0; }
-    .danke-step-num {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--gold); color: var(--white);
-      font-size: 0.65rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .danke-step::before {
+      content: '';
+      display: inline-block; flex-shrink: 0;
+      width: 14px; height: 14px; margin-top: 2px;
+      background: var(--gold-glow);
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+    }
+    .danke-step-info {
+      margin-top: 0.75rem; padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--text-muted);
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .danke-step-info::before {
+      content: '';
+      display: inline-block; flex-shrink: 0;
+      width: 14px; height: 14px; margin-top: 2px;
+      background: rgba(169,114,39,0.08);
+      border-radius: 50%;
+      border: 1.5px solid var(--gold-champagne);
     }
 
     .danke-close {
@@ -949,7 +965,7 @@
             <label class="f-label">Interessiert an</label>
             <div class="int-row">
               <button type="button" class="int-btn active" data-val="Eigentumswohnung">Eigentumswohnung<span class="int-btn-price">ab CHF 590'000</span></button>
-              <button type="button" class="int-btn" data-val="Einfamilienhaus">Einfamilienhaus<span class="int-btn-price">ab CHF 1'450'000</span></button>
+              <button type="button" class="int-btn" data-val="DEFH">Einfamilienhaus<span class="int-btn-price">ab CHF 1'450'000</span></button>
               <button type="button" class="int-btn" data-val="Beides">Beides</button>
             </div>
             <input type="hidden" name="interesse" id="intVal" value="Eigentumswohnung">
@@ -998,11 +1014,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h2 id="dankeTitle">Vielen Dank!</h2>
-      <p>Ihre Projektunterlagen sind auf dem Weg.</p>
+      <p id="dankeMsg">Ihre Projektunterlagen sind sofort per E-Mail unterwegs.</p>
       <div class="danke-steps" id="dankeSteps">
-        <div class="danke-step"><span class="danke-step-num">1</span>Projektunterlagen per E-Mail (sofort)</div>
-        <div class="danke-step" data-step="beratung" hidden><span class="danke-step-num">2</span>Vorschlag für Ihren Beratungstermin</div>
-        <div class="danke-step" data-step="tour" hidden><span class="danke-step-num">2</span>Besichtigung am Samstag, 9. Mai 2026 (10–15 Uhr)</div>
+        <div class="danke-step" data-step="unterlagen">Projektunterlagen per E-Mail (sofort)</div>
+        <div class="danke-step" data-step="tour-info" hidden>Unterlagen und Besichtigungsdetails per E-Mail</div>
+        <div class="danke-step" data-step="beratung" hidden>Wir melden uns für Ihren persönlichen Beratungstermin</div>
+        <div class="danke-step-info">Besichtigungstermin: Sa, 9. Mai 2026 &middot; 10–15 Uhr</div>
       </div>
       <button class="danke-close" id="dankeClose">Zurück zur Seite</button>
     </div>
@@ -1221,16 +1238,21 @@
               content_category: data.type
             });
           }
-          // Show relevant follow-up steps
-          var tourStep = document.querySelector('[data-step="tour"]');
+          // Show relevant steps based on form selection
+          var unterlagenStep = document.querySelector('[data-step="unterlagen"]');
+          var tourInfoStep = document.querySelector('[data-step="tour-info"]');
           var beratungStep = document.querySelector('[data-step="beratung"]');
-          tourStep.hidden = data.type !== 'tour';
-          beratungStep.hidden = data.type === 'tour' || !data.beratungstermin;
-          // Renumber visible steps
-          var visible = document.querySelectorAll('#dankeSteps .danke-step:not([hidden])');
-          visible.forEach(function(el, i) {
-            el.querySelector('.danke-step-num').textContent = i + 1;
-          });
+          var dankeMsg = document.getElementById('dankeMsg');
+          if (data.type === 'tour') {
+            unterlagenStep.hidden = true;
+            tourInfoStep.hidden = false;
+            dankeMsg.textContent = 'Unterlagen und alle Details zum Besichtigungstermin folgen per E-Mail.';
+          } else {
+            unterlagenStep.hidden = false;
+            tourInfoStep.hidden = true;
+            dankeMsg.textContent = 'Ihre Projektunterlagen sind sofort per E-Mail unterwegs.';
+          }
+          beratungStep.hidden = !data.beratungstermin;
           dankeTitle.textContent = 'Vielen Dank, ' + data.vorname + '!';
           danke.classList.add('vis');
           document.body.style.overflow = 'hidden';
