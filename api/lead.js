@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM = process.env.RESEND_FROM || 'Goldig Wohnen <unterlagen@goldigwohnen.tw-services.ch>';
 // Supports comma-separated list of recipients
-const NOTIFY_TO = (process.env.LEAD_NOTIFY_EMAIL || 'info@tw-services.ch,info@psschubiger.ch,info@rieben-partner.ch')
+const NOTIFY_TO = (process.env.LEAD_NOTIFY_EMAIL || 'info@tw-services.ch,sandra@psschubiger.ch,info@rieben-partner.ch')
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean);
