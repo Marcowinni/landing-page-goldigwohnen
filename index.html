@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Exklusive Eigentumswohnungen & Doppeleinfamilienhäuser in Goldingen (St. Gallen) – Minergie, Bergblick, Solar. Jetzt Projektunterlagen sichern.">
   <title>Goldig Wohnen – Ihr Zuhause mit Weitsicht</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     [hidden] { display: none !important; }
@@ -773,7 +775,10 @@
       <source src="vorhang-video.mp4" type="video/mp4">
     </video>
     <div class="intro-text" id="introText">
-      <img src="logo.png" alt="Goldig Wohnen" class="intro-logo-img">
+      <picture>
+        <source srcset="logo.webp" type="image/webp">
+        <img src="logo.png" alt="Goldig Wohnen" class="intro-logo-img" width="320" height="277" decoding="async">
+      </picture>
       <h2 class="intro-headline">Willkommen bei<br><em>Goldig Wohnen</em></h2>
     </div>
   </div>
@@ -878,7 +883,7 @@
       <p class="video-eyebrow">Projekt-Video</p>
       <h2 class="video-title">Erleben Sie Goldig Wohnen</h2>
       <div class="video-wrap" id="videoWrap">
-        <video id="projVideo" playsinline preload="metadata" poster="">
+        <video id="projVideo" playsinline preload="metadata">
           <source src="projekt-video.mp4" type="video/mp4">
         </video>
         <div class="video-play-overlay" id="videoOverlay">

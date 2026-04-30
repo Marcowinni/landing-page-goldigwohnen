@@ -5,3 +5,5 @@ node_modules/
 .env
 .env.local
 vorhang-video-original.mp4
+projekt-video-old.mp4.bak
+*.bak
