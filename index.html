@@ -903,16 +903,6 @@
     <div class="info-strip-inner">
       <div class="info-card">
         <div class="info-card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
-        </div>
-        <div>
-          <p class="info-card-label">Besichtigungstermin</p>
-          <p class="info-card-main">Sa, 09. Mai 2026</p>
-          <p class="info-card-sub">10:00 – 15:00 Uhr &ndash; Vor-Ort-Besichtigung</p>
-        </div>
-      </div>
-      <div class="info-card">
-        <div class="info-card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
         <div>
@@ -940,11 +930,6 @@
       </div>
 
 <div class="form-card">
-        <div class="form-toggle">
-          <button type="button" class="tog active" data-tab="info">Projektunterlagen</button>
-          <button type="button" class="tog" data-tab="tour">Unterlagen + Besichtigungstermin<span class="tog-badge">Empfohlen</span></button>
-        </div>
-
         <form id="leadForm" novalidate>
           <input type="hidden" name="type" id="formType" value="info">
 
@@ -1023,9 +1008,7 @@
       <p id="dankeMsg">Ihre Projektunterlagen sind sofort per E-Mail unterwegs.</p>
       <div class="danke-steps" id="dankeSteps">
         <div class="danke-step" data-step="unterlagen">Projektunterlagen per E-Mail (sofort)</div>
-        <div class="danke-step" data-step="tour-info" hidden>Unterlagen und Besichtigungsdetails per E-Mail</div>
         <div class="danke-step" data-step="beratung" hidden>Wir melden uns für Ihren persönlichen Beratungstermin</div>
-        <div class="danke-step-info">Besichtigungstermin: Sa, 9. Mai 2026 &middot; 10–15 Uhr</div>
       </div>
       <button class="danke-close" id="dankeClose">Zurück zur Seite</button>
     </div>
@@ -1158,21 +1141,9 @@
         else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
       });
 
-      // ── Toggle buttons ──
-      var toggleBtns = document.querySelectorAll('.tog');
+      // ── Form refs ──
       var formType = document.getElementById('formType');
       var submitBtn = document.getElementById('submitBtn');
-
-      toggleBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          toggleBtns.forEach(function(b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          formType.value = btn.getAttribute('data-tab');
-          submitBtn.firstChild.textContent = btn.getAttribute('data-tab') === 'tour'
-            ? 'Unterlagen & Termin anfordern '
-            : 'Jetzt Unterlagen anfordern ';
-        });
-      });
 
       // ── Interest buttons ──
       var intBtns = document.querySelectorAll('.int-btn');
@@ -1246,19 +1217,9 @@
             return;
           }
           // Show relevant steps based on form selection
-          var unterlagenStep = document.querySelector('[data-step="unterlagen"]');
-          var tourInfoStep = document.querySelector('[data-step="tour-info"]');
           var beratungStep = document.querySelector('[data-step="beratung"]');
           var dankeMsg = document.getElementById('dankeMsg');
-          if (data.type === 'tour') {
-            unterlagenStep.hidden = true;
-            tourInfoStep.hidden = false;
-            dankeMsg.textContent = 'Unterlagen und alle Details zum Besichtigungstermin folgen per E-Mail.';
-          } else {
-            unterlagenStep.hidden = false;
-            tourInfoStep.hidden = true;
-            dankeMsg.textContent = 'Ihre Projektunterlagen sind sofort per E-Mail unterwegs.';
-          }
+          dankeMsg.textContent = 'Ihre Projektunterlagen sind sofort per E-Mail unterwegs.';
           beratungStep.hidden = !data.beratungstermin;
           dankeTitle.textContent = 'Vielen Dank, ' + data.vorname + '!';
           danke.classList.add('vis');

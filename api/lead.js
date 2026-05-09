@@ -74,35 +74,12 @@ function customerHtmlInfo({ vorname, beratungstermin }) {
   `;
 }
 
-function customerHtmlTour({ vorname }) {
-  return `
-    <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color:#2D2D2D; max-width:600px; margin:0 auto; padding:24px;">
-      ${LAYOUT_HEAD}
-      <h2 style="font-family:Georgia,serif; font-weight:400; color:#1A1714; font-size:22px; margin:0 0 16px;">${greeting(vorname)},</h2>
-      <p>vielen Dank für Ihr Interesse an <strong>Goldig Wohnen</strong> in Goldingen &ndash; wir freuen uns, Ihnen das Projekt persönlich vorzustellen.</p>
-
-      <div style="background:#FAF8F5; border:1px solid rgba(169,114,39,0.25); border-radius:8px; padding:20px 24px; margin:24px 0;">
-        <p style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:#A97227; font-weight:700; margin:0 0 8px;">Ihre Einladung zur Besichtigung</p>
-        <p style="font-family:Georgia,serif; font-size:20px; color:#1A1714; margin:0 0 6px;">Samstag, 9. Mai 2026</p>
-        <p style="font-size:15px; color:#2D2D2D; margin:0 0 12px;">10:00 &ndash; 15:00 Uhr</p>
-        <p style="font-size:14px; color:#6B6560; margin:0;">Goldingen, St. Gallen</p>
-      </div>
-
-      <p>Sie können jederzeit innerhalb des Zeitfensters vorbeikommen &ndash; wir freuen uns auf Ihren Besuch.</p>
-      <p>Vorab finden Sie im Anhang die Projektunterlagen mit Grundrissen, Preisen und allen Details zu den verfügbaren Einheiten.</p>
-      ${LAYOUT_FOOT}
-    </div>
-  `;
-}
-
 function customerHtml(data) {
-  return data.type === 'tour' ? customerHtmlTour(data) : customerHtmlInfo(data);
+  return customerHtmlInfo(data);
 }
 
-function customerSubject(data) {
-  return data.type === 'tour'
-    ? 'Ihre Einladung zur Besichtigung – Goldig Wohnen'
-    : 'Ihre Projektunterlagen – Goldig Wohnen';
+function customerSubject() {
+  return 'Ihre Projektunterlagen – Goldig Wohnen';
 }
 
 function notifyHtml(d) {
